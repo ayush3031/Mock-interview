@@ -14,8 +14,8 @@ public class GithubController {
 
     @GetMapping(value = "/admin/fetchContent")
     public void updateQuestions(){
-        githubService.fetchContent();
-        System.out.println("fetching successful");
+        String response=githubService.fetchGithubFiles();
+        System.out.println(response);
     }
 
 }
