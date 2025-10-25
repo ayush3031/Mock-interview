@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 
 @Entity
+@Table(name = "Questions")
 public class Questions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,7 @@ public class Questions {
     private String questionText;
 
     private String questionHash;
+    private String difficulty;
     private LocalDateTime createdAt=LocalDateTime.now();
 
     public Questions(){}
@@ -35,6 +37,5 @@ public class Questions {
         this.questionText=questionText;
         this.company=company;
     }
-
 
 }
