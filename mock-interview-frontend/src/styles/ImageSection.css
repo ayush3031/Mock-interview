@@ -1,0 +1,105 @@
+.image-section {
+  /* --- IMAGE AND SIZING --- */
+  background-image: url('../assets/interview-tips-online-scaled.jpg'); 
+  background-size: cover;
+  background-position: center;
+  height: 100vh; 
+  width: 100%;
+  
+  /* --- CONTENT ALIGNMENT (MOBILE-FIRST) --- */
+  
+  /* By default, we center everything for mobile */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  position: relative; 
+  z-index: 1;
+}
+
+/* Overlay to darken image */
+.image-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+  z-index: 2;
+}
+
+/* --- CONTENT BLOCK (MOBILE-FIRST) --- */
+.image-content {
+  position: relative;
+  z-index: 3;
+  color: #FFFFFF;
+  max-width: 800px;
+  padding: 20px;
+  
+  /* Default text-align for mobile */
+  text-align: center;
+}
+
+.image-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.image-content p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+/* --- Get Started Button --- */
+.get-started-button {
+  background-color: #007bff; /* Bright blue */
+  color: #FFFFFF;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.get-started-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+
+/* * --- RESPONSIVE DESKTOP STYLES --- 
+ * This media query applies ONLY to screens 1024px or wider
+ */
+@media (min-width: 1024px) {
+
+  .image-section {
+    /* --- FIX: Move content box to the left --- */
+    justify-content: flex-start; 
+  }
+
+  .image-content {
+    /* --- FIX: Align text to the left --- */
+    text-align: left;
+    
+    /* --- FIX: Push content into position --- */
+    padding-left: 6vw;  /* 10% from the left edge */
+    
+    /* Make the box narrower so it fits nicely on the left */
+    max-width: 600px; 
+  }
+}
+
+/* Smaller responsive font sizes for small mobile */
+@media (max-width: 480px) {
+  .image-content h1 {
+    font-size: 2.5rem;
+  }
+  .image-content p {
+    font-size: 1.1rem;
+  }
+}

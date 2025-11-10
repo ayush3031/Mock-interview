@@ -1,0 +1,230 @@
+/* --- Base Navbar Layout --- */
+.navbar-container {
+  position: fixed; 
+  width: 100%;
+  padding: 24px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  background: transparent; /* Main container is transparent */
+  border-bottom: none;
+  box-shadow: none; 
+
+  box-sizing: border-box; 
+  z-index: 11; 
+}
+
+/* Glass effect BEHIND the navbar */
+.navbar-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* Glass styles for the main navbar */
+  background: rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Dim line */
+  
+  z-index: -1; 
+}
+
+/* --- Brand (Left Side) --- */
+.brand-name {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* --- Wrapper for Mobile Controls (Right Side) --- */
+.navbar-mobile-controls {
+  display: flex; 
+  align-items: center;
+  gap: 16px; 
+}
+
+/* Mobile-only "QUICK LINKS" Title */
+.mobile-menu-title {
+  color: #FFFFFF;
+  font-size: 1.2rem; 
+  font-weight: 600;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Rule to show the title when menu is open */
+.navbar-container.menu-is-open .mobile-menu-title {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Hamburger Icon --- */
+.hamburger-icon {
+  display: flex; 
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 12; 
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* 'X' Animation */
+.navbar-container.menu-is-open .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.navbar-container.menu-is-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.navbar-container.menu-is-open .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* --- Navigation Links (The slide-in panel) --- */
+.navigation-link-list {
+  display: flex; 
+  position: fixed;
+  top: 0;
+  right: -300px; 
+  width: 300px; 
+  height: 100vh; 
+  
+  /* --- CLEANED UP GLASS EFFECT --- */
+  /* This is the semi-transparent background */
+  background: rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(15px); 
+  -webkit-backdrop-filter: blur(15px); 
+  border-left: 1px solid rgba(255, 255, 255, 0.2); 
+  /* This is the shadow */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2); 
+  
+  flex-direction: column;
+  align-items: flex-start; 
+  justify-content: flex-start; 
+  gap: 15px; 
+  padding-top: 100px; 
+  padding-left: 0;
+  padding-right: 0;
+  list-style: none;
+  margin: 0;
+  z-index: 10; 
+  transition: right 0.3s ease-in-out;
+}
+
+/* This class slides the menu into view */
+.navigation-link-list.navbar-links-open {
+  right: 0; 
+}
+
+/* Styles for individual links (Mobile) */
+.navigation-link-list li {
+  color: #E0E0E0; 
+  font-size: 1.5rem; 
+  font-weight: 500;
+  cursor: pointer; 
+  
+  /* Hover background effect styles */
+  width: 100%; 
+  padding: 10px 30px; 
+  box-sizing: border-box; 
+  border-bottom: none; /* No underline on mobile */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Background hover effect (Mobile) */
+.navigation-link-list li:hover {
+  color: #FFFFFF; 
+  background: rgba(255, 255, 255, 0.1); 
+}
+
+
+/* --- DESKTOP STYLES --- */
+@media (min-width: 768px) {
+  
+  /* Hide the entire mobile controls wrapper on desktop */
+  .navbar-mobile-controls {
+    display: none;
+  }
+  
+  /* Show the links on desktop */
+  .navigation-link-list {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    
+    /* Reset all mobile glass styles */
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-left: none;
+    box-shadow: none;
+    
+    padding: 0; 
+    gap: 32px;
+    z-index: auto; 
+    transition: none; 
+  }
+  
+  /* Desktop link styles */
+  .navigation-link-list li {
+    font-size: 1rem; 
+    color: #CCCCCC; 
+    
+    /* Reset mobile padding/width */
+    width: auto;
+    padding: 0;
+    
+    /* Re-add desktop underline effect */
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+  }
+
+  /* Desktop hover effect (underline) */
+  .navigation-link-list li:hover {
+    color: #FFFFFF;
+    background: transparent; /* No background on desktop */
+    border-bottom-color: #FFFFFF; /* Underline on desktop */
+  }
+}
+
+/* --- Menu Backdrop & Blur Effect --- */
+.menu-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9; 
+  background: rgba(0, 0, 0, 0.2); 
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); 
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.menu-backdrop.menu-backdrop--open {
+  display: block;
+  opacity: 1;
+}
