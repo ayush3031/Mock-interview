@@ -1,27 +1,63 @@
-version: '3.9'
+name: mockinterview
 
 services:
   backend:
-    build: .
+    # Stable image name for the built artifact. Without `image:`, Compose derives
+    # <project>-<service> (here: mockinterview-backend) from the folder/project
+    # names — fragile if either is renamed. Also easier to reference in rollback.
+    image: mock-interview-backend:dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Come back after crashes and reboots; respect a deliberate `docker compose stop`.
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      # Rotating this token now only needs `--force-recreate`, not `--build`.
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
     ports:
       - "8080:8080"
-    volumes:
-      - ./src/main/resources/application.properties:/app/src/main/resources/application.properties
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # Named user-defined network: same-project containers resolve each other by service name
+    # (backend → postgres:5432). Naming it (vs. the implicit default) keeps intent visible and lets
+    # you attach future services (e.g. Speech Agent) or external tools by a stable name.
+    networks:
+      - app-net
 
   postgres:
     image: postgres:15
-    container_name: postgres
-    restart: always
+    restart: unless-stopped
     environment:
-      POSTGRES_DB: mockinterview
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      # Give Postgres time to init the data dir on first run before counting failures.
+      start_period: 10s
+    networks:
+      - app-net
 
 volumes:
   pgdata:
+
+networks:
+  # Explicit bridge network. Without this, Compose creates a default one —
+  # same effect, but naming it makes the intent visible and lets you attach
+  # other services (e.g. a future speech-agent) to the same network by name.
+  app-net:
+    driver: bridge
 

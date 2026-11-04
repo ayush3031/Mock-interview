@@ -1,0 +1,40 @@
+# ---- Things that must never leave the machine ----
+.env
+.env.*
+!.env.example
+secrets/
+
+# ---- Version control & IDE noise (not needed by any COPY in the Dockerfile) ----
+.git
+.gitignore
+.gitattributes
+.idea
+*.iml
+*.iws
+*.ipr
+.vscode
+.settings
+.classpath
+.project
+.factorypath
+.springBeans
+.sts4-cache
+
+# ---- Build output (regenerated inside the image) ----
+target/
+build/
+dist/
+
+# ---- Docker's own files (not needed inside the context) ----
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# ---- Docs / metadata ----
+HELP.md
+README.md
+*.md
+
+# ---- OS cruft ----
+.DS_Store
+Thumbs.db

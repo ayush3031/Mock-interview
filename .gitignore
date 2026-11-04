@@ -1,0 +1,24 @@
+@"
+# ---- IDE ----
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Secrets (never commit) ----
+.env
+.env.*
+!.env.example
+
+# ---- Logs ----
+*.log
+
+# ---- Local env / build output at root ----
+target/
+build/
+node_modules/
+"@ | Out-File -FilePath .gitignore -Encoding utf8
