@@ -13,7 +13,6 @@ interface ResumeUploadResponse {
   resumeId: number;
   originalFilename: string;
   charCount: number;
-  extractedText: string;
 }
 
 const StartPage: React.FC = () => {

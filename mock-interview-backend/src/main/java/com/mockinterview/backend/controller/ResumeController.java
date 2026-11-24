@@ -26,8 +26,7 @@ public class ResumeController {
         return ResponseEntity.ok(Map.of(
                 "resumeId", saved.getId(),
                 "originalFilename", saved.getOriginalFilename(),
-                "charCount", saved.getRawText().length(),
-                "extractedText", saved.getRawText()
+                "charCount", saved.getRawText().length()
         ));
     }
 }
